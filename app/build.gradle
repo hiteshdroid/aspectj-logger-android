@@ -9,6 +9,7 @@ apply plugin: 'kotlin-kapt'
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
+
 buildscript {
     repositories {
         mavenCentral()
@@ -32,7 +33,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", "SampleMethodProfilerApp-v$versionName")
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -59,8 +62,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'org.aspectj:aspectjrt:1.9.2'
     implementation project(':methodtracing')
-    implementation ("com.google.android.gms:play-services-auth:16.0.1")
-    implementation ('com.google.firebase:firebase-perf:16.2.4')
+    implementation("com.google.android.gms:play-services-auth:16.0.1")
+    implementation('com.google.firebase:firebase-perf:16.2.4')
 }
 
 final def log = project.logger
@@ -101,7 +104,7 @@ variants.all { variant ->
         new Main().run(kotlinArgs, handler)
 
         for (IMessage message : handler.getMessages(null, true)) {
-            println("MethodTracing app log "+message.getKind().toString() + " "+message.message)
+            println("MethodTracing app log " + message.getKind().toString() + " " + message.message)
             switch (message.getKind()) {
                 case IMessage.ABORT:
                 case IMessage.ERROR:
