@@ -28,4 +28,9 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+task buildArtifacts(type: Copy) {
+    into 'build/library/artifacts/'
+    from 'methodtracing/build/outputs/aar/'
+}
+
 

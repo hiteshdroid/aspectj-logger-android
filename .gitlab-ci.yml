@@ -35,12 +35,19 @@ assembleDebug:
   stage: build
   script:
     - ./gradlew assembleDebug
-  artifacts:
-    name: "aamp_${LIBRARY_VERSION}"
-    paths:
-      - methodtracing/build/outputs/aar/
 
 debugTests:
   stage: test
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
+
+deployArtifacts:
+  stage: deploy
+  script:
+    - ./gradlew buildArtifacts
+  artifacts:
+    name: "aamp_${LIBRARY_VERSION}"
+    paths:
+      - build/library/artifacts/
+
+
