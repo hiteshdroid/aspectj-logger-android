@@ -44,6 +44,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -65,7 +69,7 @@ final def variants = project.android.applicationVariants
 variants.all { variant ->
     if (!variant.buildType.isDebuggable()) {
         log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-        return;
+        return
     }
 
     JavaCompile javaCompile = variant.javaCompile
@@ -92,9 +96,9 @@ variants.all { variant ->
                 File.pathSeparator)]
 
 
-        MessageHandler handler = new MessageHandler(true);
-        new Main().run(args, handler);
-        new Main().run(kotlinArgs, handler);
+        MessageHandler handler = new MessageHandler(true)
+        new Main().run(args, handler)
+        new Main().run(kotlinArgs, handler)
 
         for (IMessage message : handler.getMessages(null, true)) {
             println("MethodTracing app log "+message.getKind().toString() + " "+message.message)
@@ -103,16 +107,16 @@ variants.all { variant ->
                 case IMessage.ERROR:
                 case IMessage.FAIL:
                     log.error message.message, message.thrown
-                    break;
+                    break
                 case IMessage.WARNING:
                     log.warn message.message, message.thrown
-                    break;
+                    break
                 case IMessage.INFO:
                     log.info message.message, message.thrown
-                    break;
+                    break
                 case IMessage.DEBUG:
                     log.debug message.message, message.thrown
-                    break;
+                    break
             }
         }
     }
