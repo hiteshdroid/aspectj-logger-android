@@ -8,6 +8,7 @@ variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.2"
   ANDROID_SDK_TOOLS: "4333796"
+  LIBRARY_VERSION: "v1.0.0"
 
 before_script:
   - apt-get --quiet update --yes
@@ -35,9 +36,9 @@ assembleDebug:
   script:
     - ./gradlew assembleDebug
   artifacts:
+    name: "aamp_${LIBRARY_VERSION}"
     paths:
-      - app/build/outputs/
-      - methodtracing/build/outputs/aar/
+      - methodtracing/build/outputs/aar/methodtracing-debug.aar
 
 debugTests:
   stage: test
