@@ -4,22 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'kotlin-kapt'
-
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
+apply from: 'aspectj.gradle'
 
 buildscript {
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'src/main/libs'
-        }
     }
 
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.9.2'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
@@ -33,7 +25,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        setProperty("archivesBaseName", "SampleMethodProfilerApp-v$versionName")
     }
 
     buildTypes {
@@ -60,69 +51,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'org.aspectj:aspectjrt:1.9.2'
-    implementation project(':methodtracing')
     implementation("com.google.android.gms:play-services-auth:16.0.1")
     implementation('com.google.firebase:firebase-perf:16.2.4')
-}
-
-final def log = project.logger
-final def variants = project.android.applicationVariants
-
-variants.all { variant ->
-    if (!variant.buildType.isDebuggable()) {
-        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-        return
-    }
-
-    JavaCompile javaCompile = variant.javaCompile
-    javaCompile.doLast {
-        String[] args = ["-showWeaveInfo",
-                         "-1.5",
-                         "-inpath", javaCompile.destinationDir.toString(),
-                         "-aspectpath", javaCompiler.classpath.asFileTree.filter {
-            !it.canonicalPath.contains("transforms")
-        }.asPath,
-                         "-d", javaCompile.destinationDir.toString(),
-                         "-classpath", javaCompile.classpath.asPath,
-                         "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-
-        String[] kotlinArgs = ["-showWeaveInfo",
-                               "-1.5",
-                               "-inpath", project.buildDir.path + "/tmp/kotlin-classes/debug",
-                               "-aspectpath", javaCompiler.classpath.asFileTree.filter {
-            !it.canonicalPath.contains("transforms")
-        }.asPath,
-                               "-d", project.buildDir.path + "/tmp/kotlin-classes/debug",
-                               "-classpath", javaCompile.classpath.asPath,
-                               "-bootclasspath", project.android.bootClasspath.join(
-                File.pathSeparator)]
-
-
-        MessageHandler handler = new MessageHandler(true)
-        new Main().run(args, handler)
-        new Main().run(kotlinArgs, handler)
-
-        for (IMessage message : handler.getMessages(null, true)) {
-            println("MethodTracing app log " + message.getKind().toString() + " " + message.message)
-            switch (message.getKind()) {
-                case IMessage.ABORT:
-                case IMessage.ERROR:
-                case IMessage.FAIL:
-                    log.error message.message, message.thrown
-                    break
-                case IMessage.WARNING:
-                    log.warn message.message, message.thrown
-                    break
-                case IMessage.INFO:
-                    log.info message.message, message.thrown
-                    break
-                case IMessage.DEBUG:
-                    log.debug message.message, message.thrown
-                    break
-            }
-        }
-    }
 }
 apply plugin: 'com.google.gms.google-services'
 
