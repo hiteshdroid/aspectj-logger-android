@@ -29,8 +29,8 @@ task clean(type: Delete) {
 }
 
 task buildArtifacts(type: Copy) {
-    into 'build/library/artifacts/'
-    from 'methodtracing/build/outputs/aar/'
+    from 'methodtracing/build/outputs/aar'
+    into 'app/build/outputs/library'
 }
 
 

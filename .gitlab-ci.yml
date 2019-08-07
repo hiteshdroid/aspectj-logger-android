@@ -48,6 +48,6 @@ deployArtifacts:
   artifacts:
     name: "aamp_${LIBRARY_VERSION}"
     paths:
-      - build/library/artifacts/
+      - app/build/outputs/library/
 
 
