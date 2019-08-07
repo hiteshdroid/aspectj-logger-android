@@ -29,3 +29,12 @@ task clean(type: Delete) {
 }
 
 
+def version = "1.0.0"
+task buildArtifacts(type: Copy) {
+    into 'app/build/outputs/'
+    from 'methodtracing/build/outputs/aar/methodtracing-debug.aar'
+
+    rename 'methodtracing-debug.aar', "aamp-v$version"+".aar"
+}
+
+
