@@ -44,6 +44,6 @@ debugTests:
     - ./gradlew -Pci --console=plain :app:testDebug
 
 buildArtifacts:
-  stage: buildArtifacts
+  stage: deploy
   script:
     - ./gradlew buildArtifacts
