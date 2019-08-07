@@ -37,13 +37,9 @@ assembleDebug:
   artifacts:
     paths:
       - app/build/outputs/
+      - methodtracing/build/outputs/aar/
 
 debugTests:
   stage: test
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
-
-buildArtifacts:
-  stage: deploy
-  script:
-    - ./gradlew buildArtifacts
