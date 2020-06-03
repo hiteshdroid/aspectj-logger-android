@@ -11,11 +11,18 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 public class TraceAspect {
 
-    private static final String POINTCUT_METHOD =
-            "execution(* com.example.myapplication.*.*(..))";
+    @Pointcut("execution(* *(..))")
+    private void anyOperation() {}
 
-    @Pointcut(POINTCUT_METHOD)
-    public void execute() {}
+    @Pointcut("execution(* com.example.myapplication..*.*(..))")
+    private void inApplicationPackage() {}
+
+    @Pointcut("execution(* com.clean.master.app.featuremodule..*.*(..))")
+    private void inFeatureModule() {}
+
+    @Pointcut("anyOperation() && (inApplicationPackage() || inFeatureModule())")
+    private void execute() {}
+
 
     @Around("execute()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
