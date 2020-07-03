@@ -8,17 +8,17 @@ apply from: 'aspectj.gradle'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-
 
 buildscript {
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
 
     dependencies {
         classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
     }
 }
 
@@ -63,5 +63,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.jaredsburrows.license'
 
 
