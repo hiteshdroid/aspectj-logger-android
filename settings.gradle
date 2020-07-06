@@ -1,2 +1,1 @@
-include ':app', ':methodtracing'
-include ':featuremodule'
+include ':amp-sample-app', ':amp-runtime',':amp-sample-module'

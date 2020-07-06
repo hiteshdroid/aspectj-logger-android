@@ -11,9 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/featuremodule" />
-            <option value="$PROJECT_DIR$/methodtracing" />
+            <option value="$PROJECT_DIR$/amp-runtime" />
+            <option value="$PROJECT_DIR$/amp-sample-app" />
+            <option value="$PROJECT_DIR$/amp-sample-module" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
