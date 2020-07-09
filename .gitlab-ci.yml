@@ -26,17 +26,13 @@ before_script:
   - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
   - set -o pipefail
 
-lintDebug:
-  stage: build
-  script:
-    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
 
 assembleDebug:
   stage: build
   script:
     - ./gradlew assembleDebug
   artifacts:
-    name: "aamp_${LIBRARY_VERSION}"
+    name: "amp_${LIBRARY_VERSION}"
     paths:
       - methodtracing/build/outputs/aar
 
